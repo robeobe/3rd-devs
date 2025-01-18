@@ -50,8 +50,16 @@ function createSystemPrompt(summarization: string): ChatCompletionMessageParam {
 // Chat endpoint POST /api/chat
 app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
+  
+  console.log('req.body', req.body);
+  console.log('message', message);  
+
+  if (!message || !message.content || !message.role) {
+    //return res.status(400).json({ error: 'Invalid message format. Required: content and role' });
+  }
 
   try {
+    console.log('trying to complete');
     const systemPrompt = createSystemPrompt(previousSummarization);
 
     const assistantResponse = await openaiService.completion([
