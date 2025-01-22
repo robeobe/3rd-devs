@@ -61,15 +61,15 @@ export async function sendData(url, dArray, task) {
     }
 }
 
-export async function chatWithGPT(message) {
-    col('chatWithGPT: message:' + message.content);
+export async function chatWithGPT(message, noComment) {
+    (!noComment) ? console.log('chatWithGPT: message:' + message.content) : console.log('chatWithGPT: Start..');
 
     try {
         assistantResponse = await openaiService.completion([
             message
         ], "gpt-4o", false);
 
-        col('chatWithGPT: answer:' + assistantResponse.choices[0].message.content);
+        (!noComment) ? col('chatWithGPT: answer:' + assistantResponse.choices[0].message.content) : col('chatWithGPT: Answering..');
         
         return assistantResponse.choices[0].message.content;
     } catch (error) {
